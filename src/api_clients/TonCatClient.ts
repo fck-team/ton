@@ -8,11 +8,11 @@ export class TonCatClient implements ApiClient {
         this.host = "https://api.ton.cat/v2/";
     }
 
-    post(endpoint: string, body: Object) {
+    post(endpoint: string, body?: Object) {
         return axios.post(this.host + endpoint, body);
     }
 
-    get(endpoint: string, params: Object) {
+    get(endpoint: string, params?: Object) {
         return axios.get(this.host + endpoint, {params: params});
     }
 }

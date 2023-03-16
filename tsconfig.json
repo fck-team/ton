@@ -7,6 +7,6 @@
       "outDir": "dist"
     },
     "lib": ["es2022"] ,
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*"],
     "typeRoots": ["./global.d.ts", "./node_modules/@types"]
   }
