@@ -7,4 +7,4 @@ const admin: string = "EQALyrWQNCxR3RFcape5ZMxClDHpySrEO93lQiaM9ZWUnAjW";
 const account: Account = new JettonWallet(Address.parse(admin));
 const fetcher: TonCatTransactionFetcher = new TonCatTransactionFetcher(account);
 
-fetcher.fetchTransactions(1).then(console.log);
+fetcher.fetchTransactions(10);

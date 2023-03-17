@@ -41,8 +41,12 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             case ActionType.jetton_transfer:
             {
                 const amount = BigInt(actionFromResponse.amount);
-                const destination = new UnknownWallet(Address.parse(actionFromResponse.destination));
-                const response_destination = new UnknownWallet(Address.parse(actionFromResponse.response_destination));
+
+                let destination = null;
+                let response_destination = null;
+
+                if(actionFromResponse.destination) destination = new UnknownWallet(Address.parse(actionFromResponse.destination));
+                if(actionFromResponse.response_destination) response_destination = new UnknownWallet(Address.parse(actionFromResponse.response_destination));
 
                 return new JettonTransferAction(amount, destination, response_destination);
             }
@@ -50,7 +54,9 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             case ActionType.jetton_transfer_notification:
             {
                 const amount = BigInt(actionFromResponse.amount);
-                const sender = new UnknownWallet(Address.parse(actionFromResponse.sender));
+                let sender = null;
+                
+                if(actionFromResponse.sender) sender = new UnknownWallet(Address.parse(actionFromResponse.sender));
 
                 return new JettonTransferNotificationAction(amount, sender);
             }
@@ -71,8 +77,9 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
 
         if(type == WalletType.jetton_wallet) result = new JettonWallet(Address.parse(address));
         else if(type == WalletType.wallet) result = new Wallet(Address.parse(address));
+        else if(type == null) result = null;
         else {
-            console.warn("Warning: Account type: '" + type + "' is not implemented!")
+            console.warn("Warning: Account type: '" + type + "' is not implemented! Address: " + address)
             result = new UnknownWallet(Address.parse(address));
         };
 
@@ -114,6 +121,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             }
 
             const in_msg = this.parseMessage(item.in_msg);
+
 
             let transaction: Transaction = new Transaction(this.account, time, fee, item.hash, item.lt, item.compute_exit_code, item.action_result_code, in_msg, out_msgs);
             result.push(transaction);
