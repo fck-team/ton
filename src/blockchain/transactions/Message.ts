@@ -1,12 +1,14 @@
 import { Account } from "../wallets/Account";
+import { Action } from "./actions/Action";
 
 export class Message {
-    source: Account
-    destination: Account
-    value: bigint
-    op: string
-    comment?: string
-    bounced: boolean
+    _source: Account
+    _destination: Account
+    _value: bigint
+    _op: string
+    _comment?: string
+    _bounced: boolean
+    _action: Action
 
     /* TODO: 
     action: {
@@ -19,13 +21,38 @@ export class Message {
     },
     */
     //action: Object 
-    constructor(source: Account, destination: Account, value: bigint, op: string, bounced: boolean, comment?: string)
+    constructor(source: Account, destination: Account, value: bigint, op: string, bounced: boolean, action?: Action, comment?: string)
     {
-        this.source = source;
-        this.destination = destination;
-        this.value = value;
-        this.op = op;
-        this.comment = comment;
-        this.bounced = bounced;
+        this._source = source;
+        this._destination = destination;
+        this._value = value;
+        this._op = op;
+        this._comment = comment;
+        this._bounced = bounced;
+        this._action = action;
+    }
+
+    public get source() {
+        return this._source;
+    }
+
+    public get destination() {
+        return this._destination;
+    }
+
+    public get value() {
+        return this._value;
+    }
+
+    public get op() {
+        return this._op;
+    }
+
+    public get comment() {
+        return this._comment;
+    }
+
+    public get bounced() {
+        return this._bounced;
     }
 }

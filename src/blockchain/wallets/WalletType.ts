@@ -1,4 +1,5 @@
 export enum WalletType {
     wallet = 'wallet',
-    jetton_wallet = 'jetton_walet'
+    jetton_wallet = 'jetton_wallet',
+    unknown = 'unknown'
 }

@@ -4,5 +4,5 @@ import { Transaction } from "../Transaction.js";
 export interface TransactionsFetcher {
     account: Account
     
-    fetchTransactions(): Promise<Array<Transaction>>;
+    fetchTransactions(limit: Number, offset: Number): Promise<Array<Transaction>>;
 }
