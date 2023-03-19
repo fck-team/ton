@@ -1,12 +1,12 @@
 {
-  "name": "@fck-foundation/ton",
+  "name": "@fckfoundation/ton",
   "version": "0.0.1",
   "author": "FCK Foundation",
   "description": "Library for TON (Telegram Open Network) blockchain by fck.foundation",
   "license": "ISC",
   "type": "module",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "dist"
