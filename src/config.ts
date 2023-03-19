@@ -1,4 +1,3 @@
-import path from "path";
 import dotenv from "dotenv";
 
 // Parsing the env file.
@@ -9,13 +8,11 @@ dotenv.config();
 // as someone could skip these varibales or not setup a .env file at all
 
 interface ENV {
-  ANALITYCS_API_HOST: string | undefined;
   TESTNET_API_KEY: string | undefined;
   MAINNET_API_KEY: string | undefined;
 }
 
 interface Config {
-  ANALITYCS_API_HOST: string,
   TESTNET_API_KEY: string,
   MAINNET_API_KEY: string,
 }
@@ -24,7 +21,6 @@ interface Config {
 
 const getConfig = (): ENV => {
   return {
-    ANALITYCS_API_HOST: process.env.ANALITYCS_API_HOST,
     TESTNET_API_KEY: process.env.TESTNET_API_KEY,
     MAINNET_API_KEY: process.env.MAINNET_API_KEY,
   };
