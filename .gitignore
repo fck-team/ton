@@ -1,4 +1,5 @@
 .env
+.npmrc
 dist
 test
 node_modules
