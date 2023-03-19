@@ -8,7 +8,7 @@ export class Message {
     _op: string
     _comment?: string
     _bounced: boolean
-    _action: Action
+    _action?: Action | null
 
     /* TODO: 
     action: {
@@ -21,7 +21,7 @@ export class Message {
     },
     */
     //action: Object 
-    constructor(source: Account, destination: Account, value: bigint, op: string, bounced: boolean, action?: Action, comment?: string)
+    constructor(source: Account, destination: Account, value: bigint, op: string, bounced: boolean, action?: Action | null, comment?: string)
     {
         this._source = source;
         this._destination = destination;

@@ -42,23 +42,23 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             {
                 const amount = BigInt(actionFromResponse.amount);
 
-                let destination = null;
-                let response_destination = null;
+                let destination: null | UnknownWallet = null;
+                let response_destination: null | UnknownWallet = null;
 
                 if(actionFromResponse.destination) destination = new UnknownWallet(Address.parse(actionFromResponse.destination));
                 if(actionFromResponse.response_destination) response_destination = new UnknownWallet(Address.parse(actionFromResponse.response_destination));
 
-                return new JettonTransferAction(amount, destination, response_destination);
+                return new JettonTransferAction(amount, destination as Account, response_destination as Account);
             }
 
             case ActionType.jetton_transfer_notification:
             {
                 const amount = BigInt(actionFromResponse.amount);
-                let sender = null;
+                let sender: null | UnknownWallet = null;
                 
                 if(actionFromResponse.sender) sender = new UnknownWallet(Address.parse(actionFromResponse.sender));
 
-                return new JettonTransferNotificationAction(amount, sender);
+                return new JettonTransferNotificationAction(amount, sender as Account);
             }
 
             case ActionType.jetton_excesses:
@@ -73,7 +73,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
 
     //было бы отлично это перенести в отдельный объект. Этот объект превращается в GodObject :\
     parseAccount(type: string, address: string): Account {
-        let result = null;
+        let result: null | JettonWallet = null;
 
         if(type == WalletType.jetton_wallet) result = new JettonWallet(Address.parse(address));
         else if(type == WalletType.wallet) result = new Wallet(Address.parse(address));
@@ -83,7 +83,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             result = new UnknownWallet(Address.parse(address));
         };
 
-        return result;
+        return result as Account;
     }
 
     parseMessage(messageFromResponse): Message
@@ -94,7 +94,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
         const value = BigInt(messageFromResponse.value);
 
         const actionData = messageFromResponse?.action;
-        let action = null;
+        let action: null | Action = null;
         if(actionData) action = this.parseAction(actionData);
 
         return new Message(source, destination, value, messageFromResponse.op, messageFromResponse.bounced, action, messageFromResponse.comment);
@@ -107,7 +107,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
         const response = await this.get("contracts/address/" + address.toString() + "/transactions", {limit: limit, offset: offset});
 
         const data = response.data;
-        let result = [];
+        let result: Transaction[] = [];
 
         for(const item of data)
         {
