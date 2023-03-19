@@ -17,14 +17,14 @@
     "@types/node": "^18.13.0",
     "tslint": "^5.12.1"
   },
-  "name": "fck-indexer",
-  "version": "1.0.0",
+  "name": "fck-ton",
+  "version": "0.0.1",
   "main": "dist/app.js",
   "scripts": {
-    "start": "tsc && node dist/app.js",
+    "start": "rm -rf dist && tsc && node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "FCK Foundation",
   "license": "ISC",
-  "description": ""
+  "description": "Library for TON (Telegram Open Network) blockchain by fck.foundation"
 }
