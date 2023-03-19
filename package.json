@@ -11,6 +11,7 @@
   "files": [
     "dist"
   ],
+  "repository":"https://github.com/fck-foundation/fck-ton",
   "main": "dist/app.js",
   "module": "dist/app.js",
   "dependencies": {
