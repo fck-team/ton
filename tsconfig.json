@@ -1,17 +1,19 @@
 {
-    "compilerOptions": {
-      "target": "ES2015",
-      "module": "CommonJS",
-      "strict": true,
-      "declaration": true,
-      "noImplicitAny": false,
-      "esModuleInterop": true,
-      "moduleResolution": "node",
-      "strictPropertyInitialization": false,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist",
-    },
-    "lib": ["es2022"] ,
-    "include": ["./src"],
-    "typeRoots": ["./global.d.ts", "./node_modules/@types"]
-  }
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "types": ["node"],
+    "declaration": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist"
+  },
+  "lib": ["es2022", "esnext.bigint"],
+  "include": ["./src"],
+  "exclude": ["node_modules/**"],
+  "typeRoots": ["./global.d.ts", "./node_modules/@types"]
+}
