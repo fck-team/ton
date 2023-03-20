@@ -3,7 +3,6 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "types": ["node"],
     "declaration": true,
     "noImplicitAny": false,
     "esModuleInterop": true,
