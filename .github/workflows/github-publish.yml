@@ -1,4 +1,5 @@
-name: Publish Package to npmjs
+name: Node.js Package on GitHub registry
+
 on:
   release:
     types: [published]
@@ -11,7 +12,9 @@ jobs:
         with:
           node-version: 14
       - run: yarn
-  publish-npm:
+
+# Publish on Github Registry
+  publish-gpr:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -19,9 +22,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: https://npm.pkg.github.com/
       - run: yarn
-      - run: npm run tsc
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
