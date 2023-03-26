@@ -14,6 +14,8 @@ import { JettonTransferAction } from "../actions/JettonTransferAction.js";
 import { JettonTransferNotificationAction } from "../actions/JettonTransferNotificationAction.js";
 import { JettonExcessesAction } from "../actions/JettonExcessesAction.js";
 import { Action } from "../actions/Action.js";
+import { TelegramUsername } from "../../wallets/TelegramUsername.js";
+import { NftItem } from "../../wallets/NftItem.js";
 
 export class TonCatTransactionFetcher extends TonCatClient implements TransactionsFetcher {
     account: Account;
@@ -75,13 +77,27 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
     parseAccount(type: string, address: string): Account {
         let result: null | JettonWallet = null;
 
-        if(type == WalletType.jetton_wallet) result = new JettonWallet(Address.parse(address));
-        else if(type == WalletType.wallet) result = new Wallet(Address.parse(address));
-        else if(type == null) result = null;
-        else {
-            console.warn("Warning: Account type: '" + type + "' is not implemented! Address: " + address)
-            result = new UnknownWallet(Address.parse(address));
-        };
+        switch (type) {
+            case WalletType.jetton_wallet:
+                result = new JettonWallet(Address.parse(address));
+                break;
+            case WalletType.wallet:
+                result = new Wallet(Address.parse(address));
+                break;
+            case WalletType.telegram_username:
+                result = new TelegramUsername(Address.parse(address));
+                break;
+            case WalletType.nft_item:
+                result = new NftItem(Address.parse(address));
+                break;
+            case null:
+                result = null;
+                break;
+            default:
+                console.warn("Warning: Account type: '" + type + "' is not implemented! Address: " + address)
+                result = new UnknownWallet(Address.parse(address));
+                break;
+        }
 
         return result as Account;
     }
@@ -105,7 +121,6 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
     async fetchTransactions(limit: Number = 20, offset: Number = 0): Promise<Array<Transaction>> {
         const address: Address = this.account.address;
         const response = await this.get("contracts/address/" + address.toString() + "/transactions", {limit: limit, offset: offset});
-
         const data = response.data;
         let result: Transaction[] = [];
 
