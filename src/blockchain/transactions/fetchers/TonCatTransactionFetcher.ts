@@ -14,8 +14,8 @@ import { JettonTransferAction } from "../actions/JettonTransferAction.js";
 import { JettonTransferNotificationAction } from "../actions/JettonTransferNotificationAction.js";
 import { JettonExcessesAction } from "../actions/JettonExcessesAction.js";
 import { Action } from "../actions/Action.js";
-import { TelegramWallet } from "../../wallets/TelegramWallet.js";
-import { NftWallet } from "../../wallets/NftWallet.js";
+import { TelegramUsername } from "../../wallets/TelegramUsername.js";
+import { NftItem } from "../../wallets/NftItem.js";
 
 export class TonCatTransactionFetcher extends TonCatClient implements TransactionsFetcher {
     account: Account;
@@ -85,10 +85,10 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
                 result = new Wallet(Address.parse(address));
                 break;
             case WalletType.telegram_username:
-                result = new TelegramWallet(Address.parse(address));
+                result = new TelegramUsername(Address.parse(address));
                 break;
             case WalletType.nft_item:
-                result = new NftWallet(Address.parse(address));
+                result = new NftItem(Address.parse(address));
                 break;
             case null:
                 result = null;
@@ -121,7 +121,6 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
     async fetchTransactions(limit: Number = 20, offset: Number = 0): Promise<Array<Transaction>> {
         const address: Address = this.account.address;
         const response = await this.get("contracts/address/" + address.toString() + "/transactions", {limit: limit, offset: offset});
-        console.log("hi 1");
         const data = response.data;
         let result: Transaction[] = [];
 
