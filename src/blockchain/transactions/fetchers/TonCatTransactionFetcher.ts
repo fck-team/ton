@@ -16,6 +16,7 @@ import { JettonExcessesAction } from "../actions/JettonExcessesAction.js";
 import { Action } from "../actions/Action.js";
 import { TelegramUsername } from "../../wallets/TelegramUsername.js";
 import { NftItem } from "../../wallets/NftItem.js";
+import { JettonMetadata } from "../../jettons/JettonMetadata.js";
 
 export class TonCatTransactionFetcher extends TonCatClient implements TransactionsFetcher {
     account: Account;
@@ -102,6 +103,18 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
         return result as Account;
     }
 
+    parseJettonMetadata(messageFromResponse)
+    {
+        var meta = messageFromResponse?.meta;
+        if(meta == null) return null;
+
+        var jetton = meta?.jetton;
+        if(jetton == null) return null;
+
+        const address = Address.parse(meta.jetton_address);
+        return new JettonMetadata(address, jetton.decimals, jetton.symbol, jetton.name, jetton.image.w216, jetton.description);
+    }
+
     parseMessage(messageFromResponse): Message
     {
         let source: Account = this.parseAccount(messageFromResponse.source_type, messageFromResponse.source);
@@ -113,7 +126,9 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
         let action: null | Action = null;
         if(actionData) action = this.parseAction(actionData);
 
-        return new Message(source, destination, value, messageFromResponse.op, messageFromResponse.bounced, action, messageFromResponse.comment);
+        const jetton = this.parseJettonMetadata(messageFromResponse);
+
+        return new Message(source, destination, value, messageFromResponse.op, messageFromResponse.bounced, action, messageFromResponse.comment, jetton);
     }
 
     //говнокод, мне не нравится, но работает
@@ -136,7 +151,6 @@ export class TonCatTransactionFetcher extends TonCatClient implements Transactio
             }
 
             const in_msg = this.parseMessage(item.in_msg);
-
 
             let transaction: Transaction = new Transaction(this.account, time, fee, item.hash, item.lt, item.compute_exit_code, item.action_result_code, in_msg, out_msgs);
             result.push(transaction);
