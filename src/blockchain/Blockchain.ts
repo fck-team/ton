@@ -1,7 +1,7 @@
 import { TonClient4 } from "ton";
 import { config } from "../config.js";
 import { BlockchainNetwork } from "./BlockchainNetwork.js";
-import TonWeb from "tonweb";
+import TonWeb from "@fck-foundation/tonweb-ts/dist/types";
 
 export class Blockchain {
     client: TonClient4

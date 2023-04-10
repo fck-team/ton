@@ -20,11 +20,11 @@
     "ton-core": "^0.47.1",
     "ton-crypto": "^3.2.0",
     "ton-emulator": "^2.1.1",
-    "tonweb": "0.0.60",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
   "devDependencies": {
+    "@fck-foundation/tonweb-ts": "0.0.1",
     "@types/axios": "^0.14.0",
     "@types/express": "^4.17.17",
     "@types/node": "^14",
