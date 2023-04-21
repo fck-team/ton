@@ -6,3 +6,8 @@ export { TonCatTransactionFetcher } from "./blockchain/transactions/fetchers/Ton
 export { TonwebJettonTransactionFetcher } from "./blockchain/transactions/fetchers/TonwebJettonTransactionFetcher.js";
 export { Blockchain } from "./blockchain/Blockchain.js";
 export { BlockchainNetwork } from "./blockchain/BlockchainNetwork.js";
+// tslint:disable-next-line:max-line-length
+export { JettonTransferNotificationAction } from "./blockchain/transactions/actions/JettonTransferNotificationAction.js";
+export { JettonTransferAction } from "./blockchain/transactions/actions/JettonTransferAction";
+export { JettonExcessesAction } from "./blockchain/transactions/actions/JettonExcessesAction";
+export { JettonInternalTransferAction } from "./blockchain/transactions/actions/JettonInternalTransferAction";
