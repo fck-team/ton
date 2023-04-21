@@ -2,25 +2,21 @@ import { Account } from "../wallets/Account";
 import { Message } from "./Message.js";
 
 export class Transaction {
-    account: Account
-    time: Date
-    fee: bigint
-    hash: string
-    lt: string
-    compute_exit_code: Number
-    action_result_code: Number
-    in_msg: Message
-    out_msgs: Array<Message>
+    public time: Date;
+    public fee: bigint;
+    public hash: string;
+    public lt: string;
+    // tslint:disable-next-line:variable-name
+    public in_msg: Message|undefined;
+    // tslint:disable-next-line:variable-name
+    public out_msgs: Message[];
 
-    constructor(account: Account, time: Date, fee: bigint, hash: string, lt: string, compute_exit_code: Number, action_result_code: Number, in_msg: Message, out_msgs: Array<Message>)
-    {
-        this.account = account;
+    // tslint:disable-next-line:variable-name
+    constructor(time: Date, fee: bigint, hash: string, lt: string, in_msg: Message|undefined, out_msgs: Message[]) {
         this.time = time;
         this.fee = fee;
         this.hash = hash;
         this.lt = lt;
-        this.compute_exit_code = compute_exit_code;
-        this.action_result_code = action_result_code;
         this.in_msg = in_msg;
         this.out_msgs = out_msgs;
     }

@@ -8,7 +8,7 @@ export class JettonTransferNotificationAction extends Action {
     protected _sender: Account;
 
     constructor(amount: bigint, sender: Account) {
-        super(ActionType.jetton_transfer);
+        super(ActionType.jetton_transfer_notification);
         this._amount = amount;
         this._sender = sender;
     }
