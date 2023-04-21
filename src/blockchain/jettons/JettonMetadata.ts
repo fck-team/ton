@@ -1,15 +1,14 @@
 import { Address } from "ton-core";
 
 export class JettonMetadata {
-    _address: Address
-    _decimals: Number
-    _symbol: string
-    _name: string
-    _image: string
-    _description: string | null
+    private _address: Address;
+    private _decimals: number;
+    private _symbol: string;
+    private _name: string;
+    private _image: string;
+    private _description: string | null;
 
-    constructor(address: Address, decimals: Number, symbol: string, name: string, image: string, description: string | null)
-    {
+    constructor(address: Address, decimals: number, symbol: string, name: string, image: string, description: string | null) {
         this._address = address;
         this._decimals = decimals;
         this._symbol = symbol;

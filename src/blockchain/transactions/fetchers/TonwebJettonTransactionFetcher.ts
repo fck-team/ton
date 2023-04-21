@@ -1,4 +1,5 @@
 import TonWeb, {SliceObject} from "@fck-foundation/tonweb-ts";
+import {JettonMinter} from "@fck-foundation/tonweb-ts/dist/types/contract/token/ft/jetton-minter";
 import {address, Address} from "ton-core";
 import {Log} from "../../../logs/Log.js";
 import {Blockchain} from "../../Blockchain.js";
@@ -102,13 +103,6 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     private parseMessage(msg, tonweb: TonWeb) {
         const sourceAddress = msg.source;
         const destinationAddress = msg.destination;
-        // TODO: load known jettons
-        const jettonName = sourceAddress;
-        if (!jettonName) {
-            // TODO: update unknown jetton
-            return;
-        }
-
         if (!msg.msg_data ||
             msg.msg_data["@type"] !== "msg.dataRaw" ||
             !msg.msg_data.body
