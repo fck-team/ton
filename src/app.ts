@@ -8,6 +8,6 @@ export { Blockchain } from "./blockchain/Blockchain.js";
 export { BlockchainNetwork } from "./blockchain/BlockchainNetwork.js";
 // tslint:disable-next-line:max-line-length
 export { JettonTransferNotificationAction } from "./blockchain/transactions/actions/JettonTransferNotificationAction.js";
-export { JettonTransferAction } from "./blockchain/transactions/actions/JettonTransferAction";
-export { JettonExcessesAction } from "./blockchain/transactions/actions/JettonExcessesAction";
-export { JettonInternalTransferAction } from "./blockchain/transactions/actions/JettonInternalTransferAction";
+export { JettonTransferAction } from "./blockchain/transactions/actions/JettonTransferAction.js";
+export { JettonExcessesAction } from "./blockchain/transactions/actions/JettonExcessesAction.js";
+export { JettonInternalTransferAction } from "./blockchain/transactions/actions/JettonInternalTransferAction.js";
