@@ -14,10 +14,10 @@ export class Blockchain {
             // tslint:disable-next-line:variable-name
             const api_key = config.MAINNET_API_KEY;
             this.client = new TonClient4({
-                endpoint: "https://toncenter.com/api/v2/jsonRPC?api_key=" + api_key,
+                endpoint: "https://sandbox.tonhubapi.com/jsonRPC?api_key=" + api_key,
             });
             this.oldClient = new TonClient({
-                endpoint: "https://toncenter.com/api/v2/jsonRPC?api_key=" + api_key,
+                endpoint: "https://sandbox.tonhubapi.com/jsonRPC?api_key=" + api_key,
             });
             this.client_tonweb = new TonWeb(new TonWeb.HttpProvider("https://toncenter.com/api/v2/jsonRPC", {
                 apiKey: api_key,
