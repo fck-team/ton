@@ -1,6 +1,6 @@
 {
   "name": "@fck-foundation/ton",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "author": "FCK Foundation",
   "description": "Library for TON (Telegram Open Network) blockchain by fck.foundation",
   "license": "ISC",
