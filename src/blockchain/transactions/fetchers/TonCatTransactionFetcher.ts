@@ -1,5 +1,6 @@
 import { Address } from "ton-core";
 import { TonCatClient } from "../../../api_clients/TonCatClient.js";
+import {Log} from "../../../logs/Log.js";
 import { JettonMetadata } from "../../jettons/JettonMetadata.js";
 import { Account } from "../../wallets/Account.js";
 import { JettonWallet } from "../../wallets/JettonWallet.js";
@@ -47,7 +48,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements ITransacti
                 result = null;
                 break;
             default:
-                console.warn("Warning: Account type: '" + type + "' is not implemented! Address: " + address);
+                Log.warn("Warning: Account type: '" + type + "' is not implemented! Address: " + address);
                 result = new UnknownWallet(Address.parse(address));
                 break;
         }
@@ -115,7 +116,7 @@ export class TonCatTransactionFetcher extends TonCatClient implements ITransacti
         return result;
     }
 
-    private parseAction(actionFromResponse): Action {
+    private parseAction(actionFromResponse): Action|null {
         const type = actionFromResponse?.type;
 
         switch (type) {
@@ -155,9 +156,10 @@ export class TonCatTransactionFetcher extends TonCatClient implements ITransacti
                 return new JettonExcessesAction();
 
             default:
-                const msg = "Error: Action type: '" + actionFromResponse.type + "' is not implemented!";
-                console.error(msg, actionFromResponse);
-                throw new Error(msg);
+                const msg = "Action type: '" + actionFromResponse.type + "' is not implemented!";
+                Log.warn(msg);
+                Log.warn(msg);
+                return null;
         }
     }
 }
