@@ -11,3 +11,4 @@ export { JettonTransferNotificationAction } from "./blockchain/transactions/acti
 export { JettonTransferAction } from "./blockchain/transactions/actions/JettonTransferAction.js";
 export { JettonExcessesAction } from "./blockchain/transactions/actions/JettonExcessesAction.js";
 export { JettonInternalTransferAction } from "./blockchain/transactions/actions/JettonInternalTransferAction.js";
+export { api } from './libs/index.js';
