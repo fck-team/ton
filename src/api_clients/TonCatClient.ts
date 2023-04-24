@@ -1,18 +1,18 @@
-import axios from "axios";
+import { api } from "../libs/index.js";
 import { ApiClient } from "./ApiClient.js";
 
 export class TonCatClient implements ApiClient {
-    private host: string;
+  private host: string;
 
-    constructor() {
-        this.host = "https://api.ton.cat/v2/";
-    }
+  constructor() {
+    this.host = "https://api.ton.cat/v2/";
+  }
 
-    post(endpoint: string, body?: Object) {
-        return axios.post(this.host + endpoint, body);
-    }
+  post(endpoint: string, body?: Object) {
+    return api.post(this.host + endpoint, body);
+  }
 
-    get(endpoint: string, params?: Object) {
-        return axios.get(this.host + endpoint, {params: params});
-    }
+  get(endpoint: string, params?: Object) {
+    return api.get(this.host + endpoint, { params: params });
+  }
 }
