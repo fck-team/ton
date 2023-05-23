@@ -1,18 +1,19 @@
-import TonWeb, { SliceObject } from "@fck-foundation/tonweb-ts";
-import { address, Address } from "ton-core";
-import { Log } from "../../../logs/Log.js";
-import { Blockchain } from "../../Blockchain.js";
-import { OpCode } from "../../OpCode.js";
-import { Account } from "../../wallets/Account.js";
-import { UnknownWallet } from "../../wallets/UnknownWallet.js";
-import { Action } from "../actions/Action.js";
-import { JettonTransferAction } from "../actions/JettonTransferAction.js";
-import { JettonTransferNotificationAction } from "../actions/JettonTransferNotificationAction.js";
-import { Message } from "../Message.js";
-import { Transaction } from "../Transaction.js";
-import { ITransactionsFetcher } from "./TranscationFetcher.js";
+import TonWeb from "@fck-foundation/tonweb-ts";
+import {Address} from "ton-core";
+import {Log} from "../../../logs/Log.js";
+import {Blockchain} from "../../Blockchain.js";
+import {OpCode} from "../../OpCode.js";
+import {Account} from "../../wallets/Account.js";
+import {UnknownWallet} from "../../wallets/UnknownWallet.js";
+import {Action} from "../actions/Action.js";
 import {DedustBuyAction} from "../actions/DedustBuyAction.js";
 import {DedustSellAction} from "../actions/DedustSellAction.js";
+import {JettonTransferAction} from "../actions/JettonTransferAction.js";
+import {JettonTransferNotificationAction} from "../actions/JettonTransferNotificationAction.js";
+import {Message} from "../Message.js";
+import {Transaction} from "../Transaction.js";
+import {ITransactionsFetcher} from "./TranscationFetcher.js";
+
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
   private blockchain: Blockchain;
@@ -22,6 +23,10 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.jetton_transfer,
       OpCode.dedust_buy,
       OpCode.dedust_sell,
+  ];
+  private ignoredOpCodes = [
+      OpCode.dedust_unknown,
+      OpCode.dedust_unknown2,
   ];
   constructor(account: Account, blockchain: Blockchain) {
     this.account = account;
@@ -92,11 +97,13 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const op = slice.loadUint(32);
 
     if (!this.isOpSupported(op)) {
-      Log.warn(
-        "Op code " +
-          op.toString() +
-          " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm"
-      );
+      if (!this.ignoredOpCodes.includes(op)) {
+        Log.warn(
+            "Op code " +
+            op.toString() +
+            " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm"
+        );
+      }
       return;
     }
 
