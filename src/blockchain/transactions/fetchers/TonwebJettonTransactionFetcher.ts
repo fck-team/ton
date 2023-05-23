@@ -23,10 +23,10 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.jetton_transfer,
       OpCode.dedust_buy,
       OpCode.dedust_sell,
+      OpCode.dedust_pool_notification,
   ];
   private ignoredOpCodes = [
       OpCode.dedust_unknown,
-      OpCode.dedust_unknown2,
   ];
   constructor(account: Account, blockchain: Blockchain) {
     this.account = account;
@@ -111,6 +111,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
             op.toString() +
             " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm"
         );
+        this.ignoredOpCodes.push(op);
       }
       return;
     }
@@ -123,9 +124,14 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       return this.parseDedustBuyAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
       return this.parseDedustSellAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_pool_notification))) {
+      return this.parseDedustPoolNotificationAction();
     } else {
       Log.error("Called not supported op code " + op.toString());
     }
+  }
+  private parseDedustPoolNotificationAction() {
+    return new DedustBuyAction();
   }
   private parseDedustBuyAction() {
     return new DedustBuyAction();
