@@ -13,6 +13,7 @@ import {JettonTransferNotificationAction} from "../actions/JettonTransferNotific
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
+import {DedustPoolNotificationAction} from "../actions/DedustPoolNotificationAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
@@ -131,7 +132,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     }
   }
   private parseDedustPoolNotificationAction() {
-    return new DedustBuyAction();
+    return new DedustPoolNotificationAction();
   }
   private parseDedustBuyAction() {
     return new DedustBuyAction();

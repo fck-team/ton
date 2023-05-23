@@ -13,4 +13,5 @@ export { JettonExcessesAction } from "./blockchain/transactions/actions/JettonEx
 export { JettonInternalTransferAction } from "./blockchain/transactions/actions/JettonInternalTransferAction.js";
 export { DedustBuyAction } from "./blockchain/transactions/actions/DedustBuyAction.js";
 export { DedustSellAction } from "./blockchain/transactions/actions/DedustSellAction.js";
+export { DedustPoolNotificationAction } from "./blockchain/transactions/actions/DedustPoolNotificationAction.js";
 export { api } from "./libs/index.js";
