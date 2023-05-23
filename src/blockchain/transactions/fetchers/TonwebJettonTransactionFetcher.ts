@@ -11,8 +11,8 @@ import { JettonTransferNotificationAction } from "../actions/JettonTransferNotif
 import { Message } from "../Message.js";
 import { Transaction } from "../Transaction.js";
 import { ITransactionsFetcher } from "./TranscationFetcher.js";
-import {DedustBuyAction} from "../actions/DedustBuyAction";
-import {DedustSellAction} from "../actions/DedustSellAction";
+import {DedustBuyAction} from "../actions/DedustBuyAction.js";
+import {DedustSellAction} from "../actions/DedustSellAction.js";
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
   private blockchain: Blockchain;
