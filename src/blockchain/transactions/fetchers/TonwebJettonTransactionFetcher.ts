@@ -116,16 +116,12 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     }
 
     if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
-      Log.info("Jetton transfer notification found!");
       return this.parseJettonTransferNotificationAction(slice, tonweb);
     } else if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer))) {
-      Log.info("Jetton transfer found!");
       return this.parseJettonTransferAction(slice, tonweb);
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_buy))) {
-      Log.info("DeDust buy found!");
       return this.parseDedustBuyAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
-      Log.info("Dedust sell found!");
       return this.parseDedustSellAction();
     } else {
       Log.error("Called not supported op code " + op.toString());
