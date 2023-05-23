@@ -7,13 +7,13 @@ import {Account} from "../../wallets/Account.js";
 import {UnknownWallet} from "../../wallets/UnknownWallet.js";
 import {Action} from "../actions/Action.js";
 import {DedustBuyAction} from "../actions/DedustBuyAction.js";
+import {DedustPoolNotificationAction} from "../actions/DedustPoolNotificationAction.js";
 import {DedustSellAction} from "../actions/DedustSellAction.js";
 import {JettonTransferAction} from "../actions/JettonTransferAction.js";
 import {JettonTransferNotificationAction} from "../actions/JettonTransferNotificationAction.js";
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
-import {DedustPoolNotificationAction} from "../actions/DedustPoolNotificationAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
