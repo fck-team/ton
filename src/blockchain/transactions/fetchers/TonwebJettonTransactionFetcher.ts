@@ -51,7 +51,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   }
   private isOpIgnoring(op) {
     for (const opCode of this.ignoredOpCodes) {
-      if (op.eq(opCode)) {
+      if (op.toString() === opCode.toString()) {
         return true;
       }
     }
