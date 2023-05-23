@@ -3,4 +3,6 @@ export enum OpCode {
     jetton_transfer = 0x0f8a7ea5,
     jetton_excesses = 0xd53276db,
     jetton_internal_transfer = 0x178d4519,
+    dedust_sell = 0x474f86cf,
+    dedust_buy = 0xea06185d,
 }

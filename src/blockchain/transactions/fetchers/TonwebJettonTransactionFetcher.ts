@@ -1,5 +1,4 @@
 import TonWeb, { SliceObject } from "@fck-foundation/tonweb-ts";
-import { JettonMinter } from "@fck-foundation/tonweb-ts";
 import { address, Address } from "ton-core";
 import { Log } from "../../../logs/Log.js";
 import { Blockchain } from "../../Blockchain.js";
@@ -12,20 +11,24 @@ import { JettonTransferNotificationAction } from "../actions/JettonTransferNotif
 import { Message } from "../Message.js";
 import { Transaction } from "../Transaction.js";
 import { ITransactionsFetcher } from "./TranscationFetcher.js";
+import {DedustBuyAction} from "../actions/DedustBuyAction";
+import {DedustSellAction} from "../actions/DedustSellAction";
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
   private blockchain: Blockchain;
   // wtf???
   private supportedOpCodes = [
-    OpCode.jetton_transfer_notification,
-    OpCode.jetton_transfer,
+      OpCode.jetton_transfer_notification,
+      OpCode.jetton_transfer,
+      OpCode.dedust_buy,
+      OpCode.dedust_sell,
   ];
   constructor(account: Account, blockchain: Blockchain) {
     this.account = account;
     this.blockchain = blockchain;
     for (const [index, opCode] of this.supportedOpCodes.entries()) {
       this.supportedOpCodes[index] = new blockchain.client_tonweb.utils.BN(
-        opCode
+        opCode,
       );
     }
   }
@@ -78,7 +81,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const value = BigInt(amount.toString());
     const dest = new UnknownWallet(Address.parse(destination.toString()));
     const respDest = new UnknownWallet(
-      Address.parse(respDestination.toString())
+      Address.parse(respDestination.toString()),
     );
     return new JettonTransferAction(value, dest, respDest);
   }
@@ -103,9 +106,21 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     } else if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer))) {
       Log.info("Jetton transfer found!");
       return this.parseJettonTransferAction(slice, tonweb);
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_buy))) {
+      Log.info("DeDust buy found!");
+      return this.parseDedustBuyAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
+      Log.info("Dedust sell found!");
+      return this.parseDedustSellAction();
     } else {
       Log.error("Called not supported op code " + op.toString());
     }
+  }
+  private parseDedustBuyAction() {
+    return new DedustBuyAction();
+  }
+  private parseDedustSellAction() {
+    return new DedustSellAction();
   }
 
   private parseMessage(msg, tonweb: TonWeb) {
@@ -159,7 +174,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
         hash,
         lt,
         in_msg,
-        out_msgs
+        out_msgs,
       );
       result.push(transaction);
     }
@@ -169,7 +184,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const tonweb = this.blockchain.client_tonweb;
     return await tonweb.provider.getTransactions(
       this.account.address.toString(),
-      limit
+      limit,
     );
   }
 }
