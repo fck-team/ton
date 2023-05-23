@@ -49,6 +49,14 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     }
     return false;
   }
+  private isOpIgnoring(op) {
+    for (const opCode of this.supportedOpCodes) {
+      if (op.eq(opCode)) {
+        return true;
+      }
+    }
+    return false;
+  }
   private parseJettonTransferNotificationAction(slice, tonweb) {
     const queryId = slice.loadUint(64);
     const amount = slice.loadCoins();
@@ -97,7 +105,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const op = slice.loadUint(32);
 
     if (!this.isOpSupported(op)) {
-      if (!this.ignoredOpCodes.includes(op)) {
+      if (!this.isOpIgnoring(op)) {
         Log.warn(
             "Op code " +
             op.toString() +
