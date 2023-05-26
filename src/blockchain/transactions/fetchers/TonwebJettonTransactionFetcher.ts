@@ -7,13 +7,14 @@ import {Account} from "../../wallets/Account.js";
 import {UnknownWallet} from "../../wallets/UnknownWallet.js";
 import {Action} from "../actions/Action.js";
 import {DedustBuyAction} from "../actions/DedustBuyAction.js";
-import {DedustPoolNotificationAction} from "../actions/DedustPoolNotificationAction.js";
+import {DedustLPNotificationAction} from "../actions/DedustLPNotificationAction.js";
 import {DedustSellAction} from "../actions/DedustSellAction.js";
 import {JettonTransferAction} from "../actions/JettonTransferAction.js";
 import {JettonTransferNotificationAction} from "../actions/JettonTransferNotificationAction.js";
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
+import {DedustSwapPoolNotificationAction} from "../actions/DedustSwapPoolNotificationAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
@@ -24,11 +25,9 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.jetton_transfer,
       OpCode.dedust_buy,
       OpCode.dedust_sell,
-      OpCode.dedust_pool_notification,
+      OpCode.dedust_lp_notification,
   ];
-  private ignoredOpCodes = [
-      OpCode.dedust_unknown,
-  ];
+  private ignoredOpCodes: OpCode[] = [];
   constructor(account: Account, blockchain: Blockchain) {
     this.account = account;
     this.blockchain = blockchain;
@@ -110,7 +109,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
         Log.warn(
             "Op code " +
             op.toString() +
-            " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm"
+            " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm",
         );
         this.ignoredOpCodes.push(op);
       }
@@ -125,14 +124,19 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       return this.parseDedustBuyAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
       return this.parseDedustSellAction();
-    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_pool_notification))) {
-      return this.parseDedustPoolNotificationAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_lp_notification))) {
+      return this.parseDedustLPNotificationAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_swap_pool_notification))) {
+      return this.parseDedustSwapPoolNotificationAction();
     } else {
       Log.error("Called not supported op code " + op.toString());
     }
   }
-  private parseDedustPoolNotificationAction() {
-    return new DedustPoolNotificationAction();
+  private parseDedustSwapPoolNotificationAction() {
+    return new DedustSwapPoolNotificationAction();
+  }
+  private parseDedustLPNotificationAction() {
+    return new DedustLPNotificationAction();
   }
   private parseDedustBuyAction() {
     return new DedustBuyAction();
