@@ -26,6 +26,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.dedust_buy,
       OpCode.dedust_sell,
       OpCode.dedust_lp_notification,
+      OpCode.dedust_swap_pool_notification,
   ];
   private ignoredOpCodes: OpCode[] = [];
   constructor(account: Account, blockchain: Blockchain) {
