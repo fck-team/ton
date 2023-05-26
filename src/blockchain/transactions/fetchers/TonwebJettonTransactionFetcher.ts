@@ -66,7 +66,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const payload = maybeRef ? slice.loadRef() : slice;
     const payloadOp = payload.loadUint(32);
     if (!payloadOp.eq(new tonweb.utils.BN(0))) {
-      Log.info("no text comment in transfer_notification");
+      // Log.info("no text comment in transfer_notification");
     }
     const payloadBytes = payload.loadBits(slice.getFreeBits());
     const comment = new TextDecoder().decode(payloadBytes);
@@ -87,7 +87,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const payload = maybePayload ? slice.loadRef() : slice;
     const payloadOp = payload.loadUint(32);
     if (!payloadOp.eq(new tonweb.utils.BN(0))) {
-      Log.info("no text comment in transfer");
+      // Log.info("no text comment in transfer");
     }
     const payloadBytes = payload.loadBits(slice.getFreeBits());
     const comment = new TextDecoder().decode(payloadBytes);
