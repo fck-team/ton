@@ -14,6 +14,8 @@ export { JettonInternalTransferAction } from "./blockchain/transactions/actions/
 export { DedustBuyAction } from "./blockchain/transactions/actions/DedustBuyAction.js";
 export { DedustSellAction } from "./blockchain/transactions/actions/DedustSellAction.js";
 export { DedustLPNotificationAction } from "./blockchain/transactions/actions/DedustLPNotificationAction.js";
+// tslint:disable-next-line:max-line-length
 export { DedustSwapPoolNotificationAction } from "./blockchain/transactions/actions/DedustSwapPoolNotificationAction.js";
 export { DedustLiquidityDepositAction } from "./blockchain/transactions/actions/DedustLiquidityDepositAction.js";
+export { DedustJettonLiquidityDepositAction } from "./blockchain/transactions/actions/DedustJettonLiquidityDepositAction.js";
 export { api } from "./libs/index.js";
