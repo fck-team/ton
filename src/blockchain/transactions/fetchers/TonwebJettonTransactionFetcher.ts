@@ -7,14 +7,15 @@ import {Account} from "../../wallets/Account.js";
 import {UnknownWallet} from "../../wallets/UnknownWallet.js";
 import {Action} from "../actions/Action.js";
 import {DedustBuyAction} from "../actions/DedustBuyAction.js";
+import {DedustLiquidityDepositAction} from "../actions/DedustLiquidityDepositAction.js";
 import {DedustLPNotificationAction} from "../actions/DedustLPNotificationAction.js";
 import {DedustSellAction} from "../actions/DedustSellAction.js";
+import {DedustSwapPoolNotificationAction} from "../actions/DedustSwapPoolNotificationAction.js";
 import {JettonTransferAction} from "../actions/JettonTransferAction.js";
 import {JettonTransferNotificationAction} from "../actions/JettonTransferNotificationAction.js";
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
-import {DedustSwapPoolNotificationAction} from "../actions/DedustSwapPoolNotificationAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
@@ -27,6 +28,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.dedust_sell,
       OpCode.dedust_lp_notification,
       OpCode.dedust_swap_pool_notification,
+      OpCode.dedust_liquidity_deposit,
   ];
   private ignoredOpCodes: OpCode[] = [];
   constructor(account: Account, blockchain: Blockchain) {
@@ -125,6 +127,8 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       return this.parseDedustBuyAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
       return this.parseDedustSellAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_liquidity_deposit))) {
+      return this.parseDedustLiquidityDepositAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_lp_notification))) {
       return this.parseDedustLPNotificationAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_swap_pool_notification))) {
@@ -141,6 +145,9 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   }
   private parseDedustBuyAction() {
     return new DedustBuyAction();
+  }
+  private parseDedustLiquidityDepositAction() {
+    return new DedustLiquidityDepositAction();
   }
   private parseDedustSellAction() {
     return new DedustSellAction();

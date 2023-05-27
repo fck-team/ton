@@ -15,4 +15,5 @@ export { DedustBuyAction } from "./blockchain/transactions/actions/DedustBuyActi
 export { DedustSellAction } from "./blockchain/transactions/actions/DedustSellAction.js";
 export { DedustLPNotificationAction } from "./blockchain/transactions/actions/DedustLPNotificationAction.js";
 export { DedustSwapPoolNotificationAction } from "./blockchain/transactions/actions/DedustSwapPoolNotificationAction.js";
+export { DedustLiquidityDepositAction } from "./blockchain/transactions/actions/DedustLiquidityDepositAction.js";
 export { api } from "./libs/index.js";
