@@ -7,6 +7,7 @@ import {Account} from "../../wallets/Account.js";
 import {UnknownWallet} from "../../wallets/UnknownWallet.js";
 import {Action} from "../actions/Action.js";
 import {DedustBuyAction} from "../actions/DedustBuyAction.js";
+import {DedustJettonLiquidityDepositAction} from "../actions/DedustJettonLiquidityDepositAction.js";
 import {DedustLiquidityDepositAction} from "../actions/DedustLiquidityDepositAction.js";
 import {DedustLPNotificationAction} from "../actions/DedustLPNotificationAction.js";
 import {DedustSellAction} from "../actions/DedustSellAction.js";
@@ -16,7 +17,6 @@ import {JettonTransferNotificationAction} from "../actions/JettonTransferNotific
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
-import {DedustJettonLiquidityDepositAction} from "../actions/DedustJettonLiquidityDepositAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
@@ -96,7 +96,12 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const payloadBytes = payload.loadBits(slice.getFreeBits());
     const comment = new TextDecoder().decode(payloadBytes);
 
-    const value = BigInt(amount.toString());
+    let value = amount?.toString();
+    if (value) {
+      value = BigInt(value);
+    } else {
+      value = BigInt(0);
+    }
     const dest = new UnknownWallet(Address.parse(destination.toString()));
     const respDest = new UnknownWallet(
       Address.parse(respDestination.toString()),
