@@ -16,6 +16,7 @@ import {JettonTransferNotificationAction} from "../actions/JettonTransferNotific
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
+import {DedustJettonLiquidityDepositAction} from "../actions/DedustJettonLiquidityDepositAction.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
@@ -29,6 +30,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       OpCode.dedust_lp_notification,
       OpCode.dedust_swap_pool_notification,
       OpCode.dedust_liquidity_deposit,
+      OpCode.dedust_jetton_liquidity_deposit,
   ];
   private ignoredOpCodes: OpCode[] = [];
   constructor(account: Account, blockchain: Blockchain) {
@@ -129,6 +131,8 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       return this.parseDedustSellAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_liquidity_deposit))) {
       return this.parseDedustLiquidityDepositAction();
+    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_jetton_liquidity_deposit))) {
+      return this.parseDedustJettonLiquidityDepositAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_lp_notification))) {
       return this.parseDedustLPNotificationAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_swap_pool_notification))) {
@@ -145,6 +149,9 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   }
   private parseDedustBuyAction() {
     return new DedustBuyAction();
+  }
+  private parseDedustJettonLiquidityDepositAction() {
+    return new DedustJettonLiquidityDepositAction();
   }
   private parseDedustLiquidityDepositAction() {
     return new DedustLiquidityDepositAction();

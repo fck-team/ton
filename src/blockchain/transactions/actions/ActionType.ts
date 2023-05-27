@@ -6,6 +6,7 @@ export enum ActionType {
     dedust_buy = "dedust:buy",
     dedust_sell = "dedust:sell",
     dedust_liquidity_deposit = "dedust:liquidity_deposit",
+    dedust_jetton_liquidity_deposit = "dedust:jetton_liquidity_deposit",
     dedust_lp_notification = "dedust:lp_notification",
     dedust_swap_pool_notification = "dedust:swap_pool_notification",
 }

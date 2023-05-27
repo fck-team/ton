@@ -6,6 +6,7 @@ export enum OpCode {
     dedust_sell = 0x474f86cf,
     dedust_buy = 0xea06185d,
     dedust_liquidity_deposit = 0x55e4686,
+    dedust_jetton_liquidity_deposit = 0x40e108d6,
     dedust_lp_notification = 0x61ee542d,
     dedust_swap_pool_notification = 0xad4eb6f5,
 }
