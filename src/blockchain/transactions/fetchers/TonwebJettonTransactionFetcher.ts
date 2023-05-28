@@ -103,9 +103,12 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       value = BigInt(0);
     }
     const dest = new UnknownWallet(Address.parse(destination.toString()));
-    const respDest = new UnknownWallet(
-      Address.parse(respDestination.toString()),
-    );
+    let respDest: Account|null = null;
+    if (respDestination) {
+      respDest = new UnknownWallet(
+          Address.parse(respDestination.toString()),
+      );
+    }
     return new JettonTransferAction(value, dest, respDest);
   }
 

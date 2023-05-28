@@ -4,11 +4,15 @@ import { Account } from "../../wallets/Account.js";
 
 export class JettonTransferAction extends Action {
 
+    // tslint:disable-next-line:variable-name
     protected _amount: bigint;
+    // tslint:disable-next-line:variable-name
     protected _destination: Account;
-    protected _response_destination: Account;
+    // tslint:disable-next-line:variable-name
+    protected _response_destination: Account|null;
 
-    constructor(amount: bigint, destination: Account, response_destination: Account) {
+    // tslint:disable-next-line:variable-name
+    constructor(amount: bigint, destination: Account, response_destination: Account|null) {
         super(ActionType.jetton_transfer);
         this._amount = amount;
         this._destination = destination;
