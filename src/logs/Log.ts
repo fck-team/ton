@@ -17,6 +17,11 @@ export class Log {
             console.warn(this.format(prefix), data);
         });
     }
+    public static debug(data: any, prefix: string = "DEBUG") {
+        this.send(() => {
+            console.debug(this.format(prefix), data);
+        });
+    }
 
     private static send(callback: () => void) {
         if (config.DEBUG) { callback(); }

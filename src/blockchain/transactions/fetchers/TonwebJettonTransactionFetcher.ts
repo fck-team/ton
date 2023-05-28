@@ -14,6 +14,7 @@ import {DedustSellAction} from "../actions/DedustSellAction.js";
 import {DedustSwapPoolNotificationAction} from "../actions/DedustSwapPoolNotificationAction.js";
 import {JettonTransferAction} from "../actions/JettonTransferAction.js";
 import {JettonTransferNotificationAction} from "../actions/JettonTransferNotificationAction.js";
+import {UnknownAction} from "../actions/UnknownAction.js";
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
 import {ITransactionsFetcher} from "./TranscationFetcher.js";
@@ -21,46 +22,13 @@ import {ITransactionsFetcher} from "./TranscationFetcher.js";
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;
   private blockchain: Blockchain;
-  // wtf???
-  private supportedOpCodes = [
-      OpCode.jetton_transfer_notification,
-      OpCode.jetton_transfer,
-      OpCode.dedust_buy,
-      OpCode.dedust_sell,
-      OpCode.dedust_lp_notification,
-      OpCode.dedust_swap_pool_notification,
-      OpCode.dedust_liquidity_deposit,
-      OpCode.dedust_jetton_liquidity_deposit,
-  ];
-  private ignoredOpCodes: OpCode[] = [];
   constructor(account: Account, blockchain: Blockchain) {
     this.account = account;
     this.blockchain = blockchain;
-    for (const [index, opCode] of this.supportedOpCodes.entries()) {
-      this.supportedOpCodes[index] = new blockchain.client_tonweb.utils.BN(
-        opCode,
-      );
-    }
   }
   public async fetchTransactions(limit: number): Promise<Transaction[]> {
     const transactions = await this.fetch(limit);
     return this.parse(transactions);
-  }
-  private isOpSupported(op) {
-    for (const opCode of this.supportedOpCodes) {
-      if (op.eq(opCode)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  private isOpIgnoring(op) {
-    for (const opCode of this.ignoredOpCodes) {
-      if (op.toString() === opCode.toString()) {
-        return true;
-      }
-    }
-    return false;
   }
   private parseJettonTransferNotificationAction(slice, tonweb) {
     const queryId = slice.loadUint(64);
@@ -117,18 +85,6 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const slice = cell.beginParse();
     const op = slice.loadUint(32);
 
-    if (!this.isOpSupported(op)) {
-      if (!this.isOpIgnoring(op)) {
-        Log.warn(
-            "Op code " +
-            op.toString() +
-            " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm",
-        );
-        this.ignoredOpCodes.push(op);
-      }
-      return;
-    }
-
     if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
       return this.parseJettonTransferNotificationAction(slice, tonweb);
     } else if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer))) {
@@ -146,7 +102,12 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_swap_pool_notification))) {
       return this.parseDedustSwapPoolNotificationAction();
     } else {
-      Log.error("Called not supported op code " + op.toString());
+      Log.debug(
+          "Op code " +
+          op.toString() +
+          " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm",
+      );
+      return new UnknownAction(op);
     }
   }
   private parseDedustSwapPoolNotificationAction() {
@@ -177,7 +138,6 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       !msg.msg_data.body
     ) {
       // no msg or msg body
-      Log.info("Message not found!");
       return;
     }
 

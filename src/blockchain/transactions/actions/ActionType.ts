@@ -1,4 +1,5 @@
 export enum ActionType {
+    unknown = "unknown",
     jetton_internal_transfer = "jetton:internal_transfer",
     jetton_transfer_notification = "jetton:transfer_notification",
     jetton_transfer = "jetton:transfer",

@@ -18,4 +18,5 @@ export { DedustLPNotificationAction } from "./blockchain/transactions/actions/De
 export { DedustSwapPoolNotificationAction } from "./blockchain/transactions/actions/DedustSwapPoolNotificationAction.js";
 export { DedustLiquidityDepositAction } from "./blockchain/transactions/actions/DedustLiquidityDepositAction.js";
 export { DedustJettonLiquidityDepositAction } from "./blockchain/transactions/actions/DedustJettonLiquidityDepositAction.js";
+export { UnknownAction } from "./blockchain/transactions/actions/UnknownAction.js";
 export { api } from "./libs/index.js";
