@@ -45,7 +45,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
 
     const value = BigInt(amount.toString());
     const sender = new UnknownWallet(Address.parse(from.toString()));
-    return new JettonTransferNotificationAction(value, sender);
+    return {action: new JettonTransferNotificationAction(value, sender), comment};
   }
   private parseJettonTransferAction(slice, tonweb) {
     const queryId = slice.loadUint(64);
@@ -77,7 +77,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
           Address.parse(respDestination.toString()),
       );
     }
-    return new JettonTransferAction(value, dest, respDest);
+    return {action: new JettonTransferAction(value, dest, respDest), comment};
   }
 
   private parseAction(msgBody: Uint8Array, tonweb: TonWeb): Action | undefined {
@@ -85,11 +85,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const slice = cell.beginParse();
     const op = slice.loadUint(32);
 
-    if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
-      return this.parseJettonTransferNotificationAction(slice, tonweb);
-    } else if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer))) {
-      return this.parseJettonTransferAction(slice, tonweb);
-    } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_buy))) {
+    if (op.eq(new tonweb.utils.BN(OpCode.dedust_buy))) {
       return this.parseDedustBuyAction();
     } else if (op.eq(new tonweb.utils.BN(OpCode.dedust_sell))) {
       return this.parseDedustSellAction();
@@ -147,8 +143,23 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
     const bounced: boolean = false; // TODO: load bounced https://docs.ton.org/develop/data-formats/msg-tlb
 
     const msgBody = tonweb.utils.base64ToBytes(msg.msg_data.body);
-    const action = this.parseAction(msgBody, tonweb);
-    return new Message(source, destination, value, bounced, action);
+    const cell = tonweb.boc.Cell.oneFromBoc(msgBody);
+    const slice = cell.beginParse();
+    const op = slice.loadUint(32);
+    let action;
+    let comment;
+    if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
+      action = this.parseJettonTransferNotificationAction(slice, tonweb);
+      comment = action.comment;
+      action = action.action;
+    } else  if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
+      action = this.parseJettonTransferAction(slice, tonweb);
+      comment = action.comment;
+      action = action.action;
+    } else {
+      action = this.parseAction(msgBody, tonweb);
+    }
+    return new Message(source, destination, value, bounced, action, comment);
   }
   private parse(transactions: any) {
     const tonweb = this.blockchain.client_tonweb;
