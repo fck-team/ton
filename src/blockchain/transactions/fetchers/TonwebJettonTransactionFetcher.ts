@@ -103,7 +103,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
           op.toString() +
           " not supported! Hex calculator: https://defuse.ca/big-number-calculator.htm",
       );
-      return new UnknownAction(op);
+      return new UnknownAction(op, cell);
     }
   }
   private parseDedustSwapPoolNotificationAction() {
