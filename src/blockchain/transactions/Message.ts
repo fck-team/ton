@@ -3,27 +3,31 @@ import { Account } from "../wallets/Account";
 import { Action } from "./actions/Action";
 
 export class Message {
-    _source: Account;
-    _destination: Account;
-    _value: bigint;
-    _comment?: string;
-    _bounced: boolean;
-    _action?: Action | null;
-    _jetton?: JettonMetadata | null;
+    public set destination(value: Account) {
+        this._destination = value;
+    }
+    // tslint:disable-next-line:variable-name
+    protected _source: Account;
+    // tslint:disable-next-line:variable-name
+    protected _destination: Account;
+    // tslint:disable-next-line:variable-name
+    protected _value: bigint;
+    // tslint:disable-next-line:variable-name
+    protected _comment?: string;
+    // tslint:disable-next-line:variable-name
+    protected _bounced: boolean;
+    // tslint:disable-next-line:variable-name
+    protected _action?: Action | null;
+    // tslint:disable-next-line:variable-name
+    protected _jetton?: JettonMetadata | null;
 
-    /* TODO: 
-    action: {
-        type: 'jetton:internal_transfer',
-        query_id: '0',
-        amount: '4332000',
-        from: 'EQClQvHmqPaSini7ztSApvlKxfrhq3J3jXA10in6je4w0pN2',
-        response_address: 'EQClQvHmqPaSini7ztSApvlKxfrhq3J3jXA10in6je4w0pN2',
-        forward_ton_amount: '1'
-    },
-    */
-    //action: Object 
-    constructor(source: Account, destination: Account, value: bigint, bounced: boolean, action?: Action | null, comment?: string, jetton?: JettonMetadata | null)
-    {
+    constructor(source: Account,
+                destination: Account,
+                value: bigint,
+                bounced: boolean,
+                action?: Action | null,
+                comment?: string,
+                jetton?: JettonMetadata | null) {
         this._source = source;
         this._destination = destination;
         this._value = value;
@@ -41,6 +45,7 @@ export class Message {
         return this._source;
     }
 
+    // tslint:disable-next-line:adjacent-overload-signatures
     public get destination() {
         return this._destination;
     }
@@ -55,5 +60,9 @@ export class Message {
 
     public get bounced() {
         return this._bounced;
+    }
+
+    public get action() {
+        return this._action;
     }
 }

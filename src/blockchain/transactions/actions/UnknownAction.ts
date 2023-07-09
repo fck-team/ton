@@ -5,7 +5,7 @@ import { ActionType } from "./ActionType.js";
 export class UnknownAction extends Action {
 
     // tslint:disable-next-line:variable-name
-    protected _op;
+    protected _op: TonWeb.utils.BN;
     // tslint:disable-next-line:variable-name
     protected _body: TonWeb.boc.Cell;
 

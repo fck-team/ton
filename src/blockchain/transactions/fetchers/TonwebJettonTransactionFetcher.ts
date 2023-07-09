@@ -152,7 +152,7 @@ export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
       action = this.parseJettonTransferNotificationAction(slice, tonweb);
       comment = action.comment;
       action = action.action;
-    } else  if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer_notification))) {
+    } else  if (op.eq(new tonweb.utils.BN(OpCode.jetton_transfer))) {
       action = this.parseJettonTransferAction(slice, tonweb);
       comment = action.comment;
       action = action.action;
