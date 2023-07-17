@@ -1,9 +1,9 @@
-import { ActionType } from "./ActionType.js";
+import {Cell} from "ton-core";
 import { Action } from "./Action.js";
-import { Account } from "../../wallets/Account.js";
+import { ActionType } from "./ActionType.js";
 
 export class JettonExcessesAction extends Action {
-    constructor() {
-        super(ActionType.jetton_excesses);
+    constructor(op?: number, body?: Cell) {
+        super(ActionType.jetton_excesses, op, body);
     }
 }

@@ -1,5 +1,5 @@
 import TonWeb from "@fck-foundation/tonweb-ts";
-import {Address} from "ton-core";
+import {Address, Cell, Slice} from "ton-core";
 import {Log} from "../../../logs/Log.js";
 import {Blockchain} from "../../Blockchain.js";
 import {OpCode} from "../../OpCode.js";
@@ -17,7 +17,7 @@ import {JettonTransferNotificationAction} from "../actions/JettonTransferNotific
 import {UnknownAction} from "../actions/UnknownAction.js";
 import {Message} from "../Message.js";
 import {Transaction} from "../Transaction.js";
-import {ITransactionsFetcher} from "./TranscationFetcher.js";
+import {ITransactionsFetcher} from "./ITranscationFetcher.js";
 
 export class TonwebJettonTransactionFetcher implements ITransactionsFetcher {
   public account: Account;

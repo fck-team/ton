@@ -17,7 +17,7 @@ import { JettonTransferAction } from "../actions/JettonTransferAction.js";
 import { JettonTransferNotificationAction } from "../actions/JettonTransferNotificationAction.js";
 import { Message } from "../Message.js";
 import { Transaction } from "../Transaction.js";
-import { ITransactionsFetcher } from "./TranscationFetcher.js";
+import { ITransactionsFetcher } from "./ITranscationFetcher.js";
 
 export class TonCatTransactionFetcher extends TonCatClient implements ITransactionsFetcher {
     public account: Account;

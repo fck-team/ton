@@ -1,3 +1,4 @@
+import {Cell} from "ton-core";
 import { Action } from "./Action.js";
 import { ActionType } from "./ActionType.js";
 
