@@ -11,7 +11,7 @@ export { UnknownWallet } from "./blockchain/wallets/UnknownWallet.js";
 export { WalletType } from "./blockchain/wallets/WalletType.js";
 export { TonCatTransactionFetcher } from "./blockchain/transactions/fetchers/TonCatTransactionFetcher.js";
 export { TonwebJettonTransactionFetcher } from "./blockchain/transactions/fetchers/TonwebJettonTransactionFetcher.js";
-export { TransactionFetcher } from "./blockchain/transactions/fetchers/TransactionFetcher";
+export { TransactionFetcher } from "./blockchain/transactions/fetchers/TransactionFetcher.js";
 export { Blockchain } from "./blockchain/Blockchain.js";
 export { BlockchainNetwork } from "./blockchain/BlockchainNetwork.js";
 // tslint:disable-next-line:max-line-length
